@@ -1,0 +1,2334 @@
+:root {
+  --bg-base: #0c0e14;
+  --bg-surface: #12151f;
+  --bg-elevated: #181c2b;
+  --bg-hover: #1f2438;
+  --bg-selected: #252b42;
+  
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-medium: rgba(255, 255, 255, 0.12);
+  --border-focus: #0ea5e9;
+
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+
+  --accent-primary: #0ea5e9;
+  --accent-primary-hover: #0284c7;
+  --accent-gradient: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+  --accent-glow: rgba(14, 165, 233, 0.25);
+
+  --csharp-cyan: #38bdf8;
+  --csharp-bg: rgba(56, 189, 248, 0.12);
+  --csproj-amber: #f59e0b;
+  --csproj-bg: rgba(245, 158, 11, 0.12);
+
+  --error-red: #ef4444;
+  --warning-amber: #f59e0b;
+  --info-blue: #38bdf8;
+  --success-green: #10b981;
+
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ================= Top Bar ================= */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(18, 21, 31, 0.85);
+  backdrop-filter: blur(16px);
+  height: 52px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  user-select: none;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon-wrap {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-md);
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px var(--accent-glow);
+}
+
+.logo-svg {
+  width: 16px;
+  height: 16px;
+  color: #ffffff;
+}
+
+.logo-text {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.3px;
+  color: #ffffff;
+}
+
+.version-badge {
+  background: rgba(14, 165, 233, 0.12);
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  letter-spacing: 0.3px;
+}
+
+.workspace-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  max-width: 420px;
+}
+
+.workspace-pill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.btn-icon {
+  width: 15px;
+  height: 15px;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+}
+
+.btn-ghost:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+  border-color: var(--border-medium);
+}
+
+.btn-secondary {
+  background-color: var(--bg-elevated);
+  color: var(--text-main);
+  border-color: var(--border-medium);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary.active {
+  background: rgba(14, 165, 233, 0.18);
+  color: #38bdf8;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.25);
+}
+
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  box-shadow: 0 2px 12px var(--accent-glow);
+  padding: 6px 16px;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.shortcut {
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: var(--text-dim);
+  font-family: inherit;
+}
+
+.shortcut-primary {
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.icon-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+}
+
+/* ================= Workspace Layout ================= */
+.workspace-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Activity Rail */
+.activity-rail {
+  width: 48px;
+  background-color: #090a0f;
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  gap: 8px;
+}
+
+.activity-btn {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.activity-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.activity-btn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+}
+
+.activity-btn.active {
+  color: #38bdf8;
+  background-color: rgba(14, 165, 233, 0.12);
+  position: relative;
+}
+
+.activity-btn.active::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  width: 3px;
+  height: 18px;
+  border-radius: 2px;
+  background-color: var(--accent-primary);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+}
+
+.file-tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 6px;
+  font-size: 0.84rem;
+}
+
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.12s, color 0.12s;
+  color: var(--text-muted);
+}
+
+.tree-item:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+}
+
+.tree-item.selected {
+  background-color: var(--bg-selected);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.tree-item-delete {
+  margin-left: auto;
+  color: var(--text-dim);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.tree-item:hover .tree-item-delete {
+  display: inline-flex;
+}
+
+.tree-item-delete:hover {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.file-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-family: 'Fira Code', monospace;
+}
+
+.badge-cs {
+  background: var(--csharp-bg);
+  color: var(--csharp-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.badge-csproj {
+  background: var(--csproj-bg);
+  color: var(--csproj-amber);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-other {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-dim);
+}
+
+/* ================= Editor Area ================= */
+.editor-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--bg-base);
+  overflow: hidden;
+}
+
+/* Tab Bar */
+.tab-bar {
+  display: flex;
+  height: 40px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-left: 8px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-weight: 500;
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--bg-base);
+  margin-top: 5px;
+  position: relative;
+}
+
+.tab.active::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-gradient);
+  border-top-left-radius: var(--radius-sm);
+  border-top-right-radius: var(--radius-sm);
+}
+
+.file-tag-csharp {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--csharp-cyan);
+  background: var(--csharp-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Fira Code', monospace;
+}
+
+.dirty-indicator {
+  color: var(--accent-primary);
+  font-size: 0.75rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Monaco Editor Container */
+.editor-container {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ================= Bottom Panel ================= */
+.bottom-panel {
+  height: 230px;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  transition: height 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bottom-panel.collapsed {
+  height: 38px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-surface);
+  height: 38px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.panel-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.panel-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.panel-tab .tab-svg {
+  width: 14px;
+  height: 14px;
+}
+
+.panel-tab:hover {
+  color: var(--text-main);
+  background-color: var(--bg-hover);
+}
+
+.panel-tab.active {
+  color: var(--text-main);
+  background-color: var(--bg-elevated);
+}
+
+.diag-counter-pill {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+}
+
+.panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.panel-content {
+  flex: 1;
+  overflow: hidden;
+  background-color: #0b0d12;
+}
+
+.console-output {
+  display: none;
+  height: 100%;
+  padding: 12px 16px;
+  font-family: 'Fira Code', Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #cbd5e1;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.console-output.active {
+  display: block;
+}
+
+.diagnostics-list {
+  display: none;
+  height: 100%;
+  padding: 8px 12px;
+  overflow-y: auto;
+  font-size: 0.82rem;
+}
+
+.diagnostics-list.active {
+  display: block;
+}
+
+.diag-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.diag-card:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--border-medium);
+  transform: translateX(2px);
+}
+
+.diag-card.is-error {
+  border-left: 3px solid var(--error-red);
+}
+
+.diag-card.is-warning {
+  border-left: 3px solid var(--warning-amber);
+}
+
+.diag-card.is-info {
+  border-left: 3px solid var(--info-blue);
+}
+
+.badge-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.badge-error { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+.badge-info { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+
+.diag-code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.diag-msg {
+  color: var(--text-main);
+  flex: 1;
+}
+
+.diag-location {
+  color: var(--text-dim);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.74rem;
+}
+
+.diag-file-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.73rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.28);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.diag-scope-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 8px;
+}
+
+.diag-scope-label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.diag-scope-toggle {
+  display: flex;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+
+.diag-scope-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.diag-scope-btn:hover {
+  color: var(--text-main);
+  background-color: var(--bg-hover);
+}
+
+.diag-scope-btn.active {
+  background-color: var(--accent-blue);
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ================= Status Bar ================= */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 26px;
+  background-color: #090a0f;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-dim);
+  font-size: 0.74rem;
+  padding: 0 14px;
+  user-select: none;
+}
+
+.status-left, .status-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--success-green);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.status-dot.analyzing {
+  background-color: var(--warning-amber);
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+}
+
+.status-dot.has-error {
+  background-color: var(--error-red);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+.status-sep {
+  opacity: 0.3;
+}
+
+.roslyn-badge {
+  color: var(--text-muted);
+}
+
+.lang-tag {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ================= XAML Visual Designer ================= */
+.tab-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 12px;
+}
+
+.tab-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tab-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(14, 165, 233, 0.1);
+  color: #38bdf8;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.74rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab-action-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.tab-action-btn:hover {
+  background-color: rgba(14, 165, 233, 0.2);
+  border-color: #38bdf8;
+}
+
+.tab-action-btn.active {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.editor-designer-split {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.xaml-designer-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 320px;
+  width: 50%;
+  background-color: #08090d;
+  border-left: 1px solid var(--border-subtle);
+  overflow: hidden;
+  position: relative;
+  z-index: 5;
+}
+
+.designer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  padding: 0 14px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  user-select: none;
+}
+
+.designer-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.designer-icon {
+  width: 15px;
+  height: 15px;
+  color: #38bdf8;
+}
+
+.designer-live-badge {
+  font-size: 0.62rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+  animation: pulse 2s infinite;
+}
+
+.designer-tools {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.designer-zoom-level {
+  font-size: 0.72rem;
+  color: #38bdf8;
+  font-family: 'Fira Code', monospace;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+  user-select: none;
+}
+
+.designer-tool-btn {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.designer-tool-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-main);
+}
+
+.designer-viewport {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: #080a0f;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+  transition: background-image 0.2s;
+}
+
+.designer-viewport.no-grid {
+  background-image: none;
+}
+
+.designer-canvas-wrapper {
+  transform-origin: top center;
+  transition: transform 0.2s ease;
+}
+
+/* Windows 11 style Window Frame for XAML Preview */
+.xaml-window-frame {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  background-color: #0f172a;
+}
+
+.xaml-window-titlebar {
+  height: 32px;
+  background-color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  user-select: none;
+}
+
+.xaml-window-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.xaml-window-icon {
+  width: 13px;
+  height: 13px;
+  color: #38bdf8;
+}
+
+.xaml-window-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xaml-win-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-close { background-color: #ef4444; }
+.dot-min { background-color: #f59e0b; }
+.dot-max { background-color: #10b981; }
+
+.xaml-window-content {
+  flex: 1;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* XAML Control Rendering Styles */
+.xaml-grid {
+  display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+.xaml-canvas {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.xaml-wrappanel {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.xaml-dockpanel {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.xaml-scrollviewer {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  box-sizing: border-box;
+  flex: 1;
+}
+
+.xaml-separator {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.12);
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.xaml-expander {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  background-color: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.xaml-expander summary {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-main);
+  background-color: var(--bg-surface);
+  cursor: pointer;
+  user-select: none;
+}
+
+.xaml-expander-content {
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.xaml-stackpanel {
+  display: flex;
+  box-sizing: border-box;
+}
+
+.xaml-border {
+  box-sizing: border-box;
+}
+
+.xaml-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.xaml-button:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.xaml-button:active {
+  transform: translateY(0);
+}
+
+.xaml-textbox {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.82rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.xaml-textbox:focus {
+  border-color: #38bdf8;
+}
+
+.xaml-textblock {
+  display: block;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.xaml-progressbar-track {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.xaml-progressbar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.xaml-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.xaml-checkbox input[type="checkbox"] {
+  accent-color: #0ea5e9;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.xaml-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.xaml-radio input[type="radio"] {
+  accent-color: #0ea5e9;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.xaml-listbox {
+  display: flex;
+  flex-direction: column;
+  background-color: #0a0d14;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.xaml-list-item {
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  transition: background-color 0.15s;
+}
+
+.xaml-list-item:last-child {
+  border-bottom: none;
+}
+
+.xaml-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.xaml-list-item.selected {
+  background-color: rgba(14, 165, 233, 0.18);
+  color: #38bdf8;
+  border-left: 3px solid #0ea5e9;
+}
+
+.xaml-combobox {
+  background-color: #0f172a;
+  color: #f1f5f9;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  outline: none;
+  cursor: pointer;
+}
+
+.xaml-combobox:focus {
+  border-color: #38bdf8;
+}
+
+.xaml-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  min-height: 80px;
+  box-sizing: border-box;
+}
+
+.xaml-slider {
+  accent-color: #0ea5e9;
+  cursor: pointer;
+}
+
+.xaml-bound-dummy {
+  text-decoration: underline dotted #38bdf8 !important;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+.xaml-error-card {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-family: 'Fira Code', monospace;
+  max-width: 480px;
+}
+
+/* ================= Bidirectional XAML Highlight & Inspect ================= */
+.xaml-inspect-highlight {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: -1px;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.5) !important;
+  position: relative !important;
+  cursor: pointer !important;
+  transition: outline 0.15s ease, box-shadow 0.15s ease;
+  z-index: 20;
+}
+
+.xaml-inspect-highlight::after {
+  content: attr(data-xaml-tag) ' : L' attr(data-xaml-line);
+  position: absolute;
+  top: -20px;
+  left: 0;
+  background: #0284c7;
+  color: #ffffff;
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.designer-selected-tag {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-size: 0.68rem;
+  font-family: 'Fira Code', monospace;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Monaco Line Decorations for XAML */
+.monaco-xaml-line-highlight {
+  background: rgba(14, 165, 233, 0.18) !important;
+  border-left: 3px solid #38bdf8 !important;
+}
+
+.monaco-xaml-glyph-highlight {
+  background: #38bdf8 !important;
+  border-radius: 50%;
+  width: 7px !important;
+  height: 7px !important;
+  margin-left: 4px;
+  margin-top: 5px;
+}
+
+/* View Mode Switcher (Code / Split / Preview) */
+.view-mode-toggle {
+  display: flex;
+  align-items: center;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+
+.view-mode-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.view-mode-btn:hover {
+  color: var(--text-main);
+  background: var(--bg-hover);
+}
+
+.view-mode-btn.active {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.designer-tool-btn.active {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+.mobile-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.mobile-menu-btn:hover {
+  background: var(--bg-hover);
+  color: #38bdf8;
+}
+
+/* ================= Mobile & Responsive Styles ================= */
+@media (max-width: 868px) {
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .workspace-pill {
+    display: none;
+  }
+
+  .actions .shortcut,
+  .actions .shortcut-primary {
+    display: none;
+  }
+
+  .actions .btn {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .actions .btn span:not(.shortcut):not(.shortcut-primary) {
+    display: inline;
+  }
+
+  .activity-rail {
+    display: none;
+  }
+
+  .sidebar {
+    position: absolute;
+    top: 52px;
+    bottom: 28px;
+    left: -280px;
+    width: 260px;
+    z-index: 50;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.85);
+    background-color: var(--bg-surface);
+    transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Split Container on Mobile */
+  .editor-designer-split {
+    flex-direction: column;
+  }
+
+  .xaml-designer-pane {
+    width: 100% !important;
+    min-width: 0 !important;
+    border-left: none;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* View Mode Switching on Mobile/Narrow */
+  .editor-designer-split[data-view-mode="code"] .editor-container {
+    display: flex !important;
+    height: 100% !important;
+    flex: 1;
+  }
+
+  .editor-designer-split[data-view-mode="code"] .xaml-designer-pane {
+    display: none !important;
+  }
+
+  .editor-designer-split[data-view-mode="preview"] .editor-container {
+    display: none !important;
+  }
+
+  .editor-designer-split[data-view-mode="preview"] .xaml-designer-pane {
+    display: flex !important;
+    height: 100% !important;
+    flex: 1;
+  }
+
+  .editor-designer-split[data-view-mode="split"] .editor-container {
+    display: flex !important;
+    height: 48% !important;
+    flex: none;
+  }
+
+  .editor-designer-split[data-view-mode="split"] .xaml-designer-pane {
+    display: flex !important;
+    height: 52% !important;
+    flex: none;
+  }
+
+  .designer-viewport {
+    padding: 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .xaml-window-frame {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .bottom-panel {
+    height: 140px;
+  }
+
+  .status-right .lang-tag,
+  .status-right .status-sep:last-of-type {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .brand .logo-text,
+  .brand .version-badge {
+    display: none;
+  }
+
+  .actions .btn span {
+    display: none !important;
+  }
+
+  .actions .btn {
+    padding: 6px 8px;
+  }
+
+  .tab-bar-actions .tab-action-btn span {
+    display: none;
+  }
+
+  .designer-title span:not(.designer-live-badge):not(.designer-selected-tag) {
+    display: none;
+  }
+}
+
+/* ================= AI Feature Canvas & Director Deck ================= */
+.btn-ai-canvas {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(2, 132, 199, 0.3));
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.15);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-ai-canvas:hover {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.35), rgba(2, 132, 199, 0.5));
+  border-color: #38bdf8;
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-ai-canvas.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+  box-shadow: 0 0 18px rgba(14, 165, 233, 0.4);
+}
+
+.ai-director-bar {
+  background: linear-gradient(180deg, #131d31 0%, #0f172a 100%);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  z-index: 20;
+}
+
+.ai-director-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ai-sparkle-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38bdf8;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ai-sparkle-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ai-director-input {
+  flex: 1;
+  background-color: #0b1120;
+  border: 1px solid #334155;
+  border-radius: var(--radius-md);
+  color: #f8fafc;
+  font-size: 0.88rem;
+  padding: 8px 14px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.ai-director-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+  background-color: #0f172a;
+}
+
+.ai-submit-btn {
+  padding: 8px 16px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ai-director-chips-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ai-chips-label {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.ai-preset-chip {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  font-size: 0.74rem;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  white-space: nowrap;
+}
+
+.ai-preset-chip:hover {
+  background: #334155;
+  color: #ffffff;
+  border-color: #38bdf8;
+  transform: translateY(-1px);
+}
+
+.ai-director-status {
+  font-size: 0.75rem;
+  color: #38bdf8;
+  margin-left: auto;
+  font-weight: 500;
+}
+
+/* ================= Visual Inspector AI Direct Prompting Popover ================= */
+.visual-ai-popover {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
+  max-width: 92vw;
+  background: #111a2e;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(14, 165, 233, 0.25);
+  padding: 12px 14px;
+  z-index: 100;
+  backdrop-filter: blur(14px);
+  animation: popoverFadeIn 0.15s ease-out;
+}
+
+@keyframes popoverFadeIn {
+  from { opacity: 0; transform: translate(-50%, -6px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.popover-tag-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.popover-line {
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: normal;
+}
+
+.popover-close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.popover-close-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.popover-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popover-input {
+  width: 100%;
+  background-color: #090e1a;
+  border: 1px solid #334155;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.popover-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+}
+
+.popover-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.popover-chip {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.popover-chip:hover {
+  background: #334155;
+  color: #ffffff;
+  border-color: #38bdf8;
+}
+
+.popover-chip.is-danger:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #f87171;
+}
+
+.popover-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.popover-status {
+  font-size: 0.72rem;
+  color: #38bdf8;
+}
+
+.popover-submit-btn {
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+/* ================= Visual Inspector & Blueprint Mode Styles ================= */
+.designer-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.designer-subbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  background-color: #0b101c;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0 12px;
+  font-size: 0.73rem;
+  flex-shrink: 0;
+}
+
+.designer-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.crumb-item {
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  transition: all 0.15s;
+}
+
+.crumb-item:hover {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.crumb-item.active {
+  color: #38bdf8;
+  font-weight: 700;
+  background: rgba(56, 189, 248, 0.18);
+}
+
+.crumb-separator {
+  color: #475569;
+  font-size: 0.65rem;
+}
+
+.designer-subbar-hint {
+  color: #64748b;
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.designer-inspector-panel {
+  width: 290px;
+  min-width: 260px;
+  max-width: 340px;
+  background-color: #0c1220;
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  z-index: 15;
+  transition: width 0.2s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.designer-inspector-panel.collapsed {
+  display: none !important;
+}
+
+.inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  padding: 0 12px;
+  background-color: #111a2d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.inspector-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.inspector-icon {
+  font-size: 0.85rem;
+}
+
+.inspector-line-badge {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.inspector-close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  border-radius: 3px;
+}
+
+.inspector-close-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+.inspector-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 18px;
+  text-align: center;
+  color: #94a3b8;
+  gap: 8px;
+}
+
+.empty-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.empty-title {
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+}
+
+.empty-desc {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.inspector-content {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 12px;
+}
+
+.prop-group {
+  background-color: #111a2d;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.prop-group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
+}
+
+.prop-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prop-row-dual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.prop-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.prop-field label, .prop-row-field label {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.prop-row-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.prop-input {
+  width: 100%;
+  background-color: #080d19;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  color: #f8fafc;
+  padding: 5px 8px;
+  font-size: 0.78rem;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.prop-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.prop-color-swatch {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #334155;
+  border-radius: 4px;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.color-hex-input {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.74rem;
+}
+
+.color-palette-chips {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.palette-chip {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.12s;
+}
+
+.palette-chip:hover {
+  transform: scale(1.2);
+  border-color: #ffffff;
+}
+
+.prop-btn-group {
+  display: flex;
+  gap: 4px;
+}
+
+.prop-chip-btn {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.prop-chip-btn.active, .prop-chip-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #38bdf8;
+}
+
+.ai-group {
+  background: linear-gradient(180deg, #131d31 0%, #0e172a 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.ai-title {
+  color: #38bdf8;
+}
+
+.prop-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.prop-chips-wrap {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.inspector-ai-chip {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #94a3b8;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.inspector-ai-chip:hover {
+  color: #38bdf8;
+  border-color: #38bdf8;
+}
+
+.actions-group {
+  display: flex;
+  gap: 8px;
+}
+
+/* Blueprint / Inspect Mode Overlay */
+.inspect-blueprint-active [data-xaml-tag] {
+  outline: 1px dashed rgba(56, 189, 248, 0.45) !important;
+  outline-offset: -1px;
+  position: relative !important;
+}
+
+.inspect-blueprint-active [data-xaml-tag]::before {
+  content: '<' attr(data-xaml-tag) '>';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  font-size: 9px;
+  font-family: 'Fira Code', monospace;
+  color: #38bdf8;
+  background: rgba(15, 23, 42, 0.9);
+  padding: 0 4px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 30;
+  line-height: 1.2;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Active Selected Preview Element */
+.xaml-inspect-selected {
+  outline: 2px solid #0ea5e9 !important;
+  outline-offset: -1px;
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.6) !important;
+  position: relative !important;
+  z-index: 25 !important;
+}
+
+.xaml-inspect-selected::after {
+  content: attr(data-xaml-tag) ' • L' attr(data-xaml-line);
+  position: absolute;
+  top: -22px;
+  left: 0;
+  background: #0284c7;
+  color: #ffffff;
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+/* Inline Text Editor Overlay */
+.xaml-inline-text-editor {
+  position: absolute;
+  background: #0f172a;
+  border: 2px solid #38bdf8;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 4px 8px;
+  outline: none;
+  z-index: 200;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
+}
+
+/* ================= XAML <-> C# UI Code Converter Modal ================= */
+.ui-converter-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 15, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.ui-converter-modal {
+  width: 680px;
+  max-width: 92vw;
+  max-height: 82vh;
+  background: #0f172a;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ui-converter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #131d31;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.ui-converter-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.ui-converter-badge {
+  background: rgba(14, 165, 233, 0.2);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.ui-converter-body {
+  padding: 12px 16px;
+  flex: 1;
+  display: flex;
+  min-height: 320px;
+}
+
+.ui-converter-textarea {
+  width: 100%;
+  height: 340px;
+  background: #080c16;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  padding: 12px;
+  resize: vertical;
+  outline: none;
+}
+
+.ui-converter-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #0b1120;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.converter-status-msg {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.ui-converter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ================= Quick Component Toolbox ================= */
+.inspector-toolbox {
+  padding: 10px 12px;
+  background: #0d1526;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.toolbox-header {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+}
+
+.toolbox-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.toolbox-chip-btn {
+  background: #162238;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 5px;
+  color: #e2e8f0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 5px 4px;
+  cursor: pointer;
+  transition: all 0.14s ease;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolbox-chip-btn:hover {
+  background: rgba(14, 165, 233, 0.2);
+  border-color: #38bdf8;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ================= Personal Cloud & LocalStorage Badge ================= */
+.runtime-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: rgba(16, 185, 129, 0.14);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.runtime-mode-badge.is-web-vfs {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.38);
+}
+
+.sidebar-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}

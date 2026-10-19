@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RoslynStudio - Lightweight C# .NET IDE</title>
+  <link rel="stylesheet" href="style.css?v=20261015_08">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Monaco Editor loader -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="brand">
+        <button id="btnMobileMenu" class="mobile-menu-btn" title="탐색기 토글">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div class="logo-icon-wrap">
+          <svg class="logo-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <span class="logo-text">RoslynStudio</span>
+        <span class="version-badge">.NET 10</span>
+      </div>
+
+      <div class="workspace-pill">
+        <svg class="folder-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span id="workspaceRootDisplay">로딩 중...</span>
+        <span id="runtimeModeBadge" class="runtime-mode-badge" title="현재 실행 환경 및 저장소 모드">⚡ Local .NET 10</span>
+      </div>
+
+      <div class="actions">
+        <button id="btnToggleAiCanvas" class="btn btn-ai-canvas" title="의도 중심 AI 피처 캔버스 모드 토글">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>✨ AI 캔버스 뷰</span>
+        </button>
+        <button id="btnTopXamlPreview" class="btn btn-secondary" title="XAML 실시간 비주얼 디자이너 분할 보기 열기">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="12" y1="3" x2="12" y2="21"></line>
+          </svg>
+          <span>XAML 디자이너</span>
+        </button>
+        <button id="btnNewFile" class="btn btn-ghost" title="새 파일 생성">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span>새 파일</span>
+        </button>
+        <button id="btnSave" class="btn btn-ghost" title="저장 (Ctrl+S)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span>저장</span>
+          <span class="shortcut">Ctrl+S</span>
+        </button>
+        <button id="btnBuild" class="btn btn-secondary" title="빌드 (Ctrl+B)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+          </svg>
+          <span>빌드</span>
+        </button>
+        <button id="btnRun" class="btn btn-primary" title="실행 (F5)">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>실행</span>
+          <span class="shortcut-primary">F5</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="workspace-body">
+      <!-- Activity Rail (Far Left) -->
+      <nav class="activity-rail">
+        <button id="railBtnExplorer" class="activity-btn active" title="파일 탐색기 토글">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+            <polyline points="13 2 13 9 20 9"></polyline>
+          </svg>
+        </button>
+        <button id="railBtnTerminal" class="activity-btn" title="터미널 토글">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- File Explorer Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <span class="sidebar-title">솔루션 탐색기</span>
+          <div class="sidebar-header-actions">
+            <button id="btnExportWorkspace" class="icon-btn" title="내 워크스페이스 전체 백업 (.json 다운로드)">📥</button>
+            <button id="btnImportWorkspace" class="icon-btn" title="백업된 워크스페이스 (.json) 불러오기">📤</button>
+            <input type="file" id="inputImportWorkspaceFile" accept=".json" style="display: none;" />
+            <button id="btnResetWorkspace" class="icon-btn" title="기본 샘플 프로젝트로 초기화">🔄</button>
+            <button id="btnRefreshTree" class="icon-btn" title="새로고침">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="file-tree" id="fileTree"></div>
+      </aside>
+
+      <!-- Editor & Console Area -->
+      <main class="editor-area">
+        <!-- Editor Tabs -->
+        <div class="tab-bar">
+          <div class="tab active" id="currentFileTab">
+            <span id="fileTypeBadge" class="file-tag-csharp">C#</span>
+            <span class="tab-name" id="currentFileName">파일을 선택하세요</span>
+            <span class="dirty-indicator" id="dirtyIndicator" style="display: none;">●</span>
+          </div>
+          <div class="tab-bar-actions">
+            <!-- Mobile/Responsive View Switcher -->
+            <div class="view-mode-toggle" id="viewModeToggle">
+              <button class="view-mode-btn" data-mode="code" title="코드만 보기">코드</button>
+              <button class="view-mode-btn active" data-mode="split" title="분할 보기">분할</button>
+              <button class="view-mode-btn" data-mode="preview" title="디자이너만 보기">미리보기</button>
+            </div>
+            <button id="btnToggleXamlPreview" class="tab-action-btn" title="XAML 실시간 비주얼 디자이너 분할 보기 토글">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="12" y1="3" x2="12" y2="21"></line>
+              </svg>
+              <span>XAML 디자이너</span>
+            </button>
+            <button id="btnToggleCodeBehind" class="tab-action-btn" title="XAML ↔ 코드 비하인드 (.xaml.cs) 전환 (단축키: F7)" style="display: none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <span id="toggleCodeBehindLabel">.xaml.cs 코드 (F7)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- AI Feature Canvas Director Deck -->
+        <div id="aiDirectorBar" class="ai-director-bar" style="display: none;">
+          <div class="ai-director-input-row">
+            <div class="ai-sparkle-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span>AI Director</span>
+            </div>
+            <input type="text" id="aiDirectorInput" class="ai-director-input" placeholder="이 뷰에 구현할 기능이나 변경사항을 자연어로 지시하세요 (예: 3종 통계 카드 추가, 로그인 폼 생성, 에메랄드 테마 적용)..." />
+            <button id="btnAiDirectorSubmit" class="btn btn-primary ai-submit-btn">
+              <span>실행 (Ctrl+Enter)</span>
+            </button>
+          </div>
+          <div class="ai-director-chips-row">
+            <span class="ai-chips-label">원클릭 프리셋:</span>
+            <button class="ai-preset-chip" data-intent="3종 실시간 메트릭 통계 카드 추가">⚡ 통계 카드 3종 추가</button>
+            <button class="ai-preset-chip" data-intent="새로운 작업 등록 사용자 입력 폼 생성 및 제출 핸들러 연결">📝 입력 폼 & 제출 이벤트 생성</button>
+            <button class="ai-preset-chip" data-intent="모던 에메랄드 테마 및 둥근 버튼 스타일 적용">🎨 에메랄드 테마</button>
+            <button class="ai-preset-chip" data-intent="클릭 이벤트 핸들러 자동 생성">⚡ C# 클릭 이벤트 연결</button>
+            <span id="aiDirectorStatus" class="ai-director-status"></span>
+          </div>
+        </div>
+
+        <!-- Editor & Designer Split Container -->
+        <div class="editor-designer-split" id="editorDesignerSplit">
+          <!-- Monaco Editor Container -->
+          <div id="monacoEditorContainer" class="editor-container"></div>
+
+          <!-- XAML Visual Designer Live Preview Pane -->
+          <div id="xamlDesignerPane" class="xaml-designer-pane" style="display: none;">
+            <div class="designer-header">
+              <div class="designer-title">
+                <svg class="designer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                <span id="designerTitleText">XAML 실시간 비주얼 디자이너</span>
+                <span class="designer-live-badge">LIVE PREVIEW</span>
+                <span id="designerSelectedTagBadge" class="designer-selected-tag" style="display: none;"></span>
+              </div>
+              <div class="designer-tools">
+                <button id="btnConvertUiCode" class="designer-tool-btn" title="현재 UI를 XAML ↔ C# 순수 코드로 상호 변환합니다">🔄 XAML↔C# 변환</button>
+                <button id="btnToggleInspectBlueprint" class="designer-tool-btn" title="모든 컨트롤의 경계선과 태그 뱃지 오버레이 토글">📐 구조 보기</button>
+                <button id="btnToggleInspectorPanel" class="designer-tool-btn active" title="속성 편집기 사이드 패널 토글">⚙ 속성 편집기</button>
+                <div class="tool-divider"></div>
+                <button id="btnZoomOut" class="designer-tool-btn" title="축소 (-)">-</button>
+                <span id="zoomLevelDisplay" class="designer-zoom-level">100%</span>
+                <button id="btnZoomIn" class="designer-tool-btn" title="확대 (+)">+</button>
+                <button id="btnZoomFit" class="designer-tool-btn" title="모바일/화면 크기 자동 맞춤">화면맞춤</button>
+                <button id="btnZoom100" class="designer-tool-btn active" title="원본 100% 크기">100%</button>
+                <button id="btnToggleGridRuler" class="designer-tool-btn" title="배경 눈금자 토글">눈금자</button>
+                <button id="btnCloseDesigner" class="designer-tool-btn" title="디자이너 닫기">✖</button>
+              </div>
+            </div>
+
+            <!-- Breadcrumbs Subbar -->
+            <div class="designer-subbar" id="designerSubbar">
+              <div class="designer-breadcrumbs" id="designerBreadcrumbs">
+                <span class="crumb-item active" data-crumb-index="0">Window</span>
+              </div>
+              <div class="designer-subbar-hint">
+                <span>💡 요소 클릭: 속성 편집 | 더블클릭: 텍스트 인라인 편집</span>
+              </div>
+            </div>
+
+            <!-- Designer Body: Viewport + Inspector Side Panel -->
+            <div class="designer-body" id="designerBody">
+              <div class="designer-viewport" id="designerViewport">
+                <div class="designer-canvas-wrapper" id="designerCanvasWrapper">
+                  <div id="xamlRenderRoot" class="xaml-render-root"></div>
+                </div>
+              </div>
+
+              <!-- Visual Property Inspector Dock -->
+              <div class="designer-inspector-panel" id="designerInspectorPanel">
+                <div class="inspector-header">
+                  <div class="inspector-title">
+                    <span class="inspector-icon">⚙</span>
+                    <span id="inspectorTitleTag">속성 편집기</span>
+                    <span id="inspectorLineBadge" class="inspector-line-badge" style="display:none;">L1</span>
+                  </div>
+                  <button id="btnCloseInspectorPanel" class="inspector-close-btn" title="속성 패널 닫기">✖</button>
+                </div>
+
+                <!-- Quick Component Toolbox (1-Click Insert for XAML & C# UI) -->
+                <div class="inspector-toolbox" id="inspectorToolbox">
+                  <div class="toolbox-header">➕ 새 컨트롤 원클릭 추가</div>
+                  <div class="toolbox-grid">
+                    <button class="toolbox-chip-btn" data-add-control="Button" title="버튼(Button) 컨트롤 추가">🔘 Button</button>
+                    <button class="toolbox-chip-btn" data-add-control="TextBlock" title="텍스트(TextBlock) 컨트롤 추가">🔤 TextBlock</button>
+                    <button class="toolbox-chip-btn" data-add-control="TextBox" title="입력창(TextBox) 컨트롤 추가">⌨ TextBox</button>
+                    <button class="toolbox-chip-btn" data-add-control="CheckBox" title="체크박스(CheckBox) 컨트롤 추가">☑ CheckBox</button>
+                    <button class="toolbox-chip-btn" data-add-control="ProgressBar" title="진행바(ProgressBar) 컨트롤 추가">📊 Progress</button>
+                    <button class="toolbox-chip-btn" data-add-control="Border" title="카드 컨테이너(Border) 블록 추가">🎴 Card</button>
+                  </div>
+                </div>
+
+                <!-- Empty state when no element is selected -->
+                <div id="inspectorEmptyState" class="inspector-empty-state">
+                  <div class="empty-icon">👆</div>
+                  <div class="empty-title">선택된 요소 없음</div>
+                  <div class="empty-desc">디자인 화면의 컨트롤을 클릭하면 주요 속성을 확인하고 직접 수정할 수 있습니다.</div>
+                  <button id="btnSelectRootWindow" class="btn btn-secondary btn-sm empty-action-btn">MainWindow 선택</button>
+                </div>
+
+                <!-- Active element property editor -->
+                <div id="inspectorContent" class="inspector-content" style="display: none;">
+                  <!-- Group: Text & Content -->
+                  <div class="prop-group" id="groupTextContent">
+                    <div class="prop-group-title">내용 / 텍스트 (Content & Text)</div>
+                    <div class="prop-row">
+                      <input type="text" id="propInputText" class="prop-input" placeholder="텍스트 입력..." />
+                    </div>
+                  </div>
+
+                  <!-- Group: Dimensions & Layout -->
+                  <div class="prop-group">
+                    <div class="prop-group-title">크기 & 여백 (Size & Spacing)</div>
+                    <div class="prop-row-dual">
+                      <div class="prop-field">
+                        <label>Width</label>
+                        <input type="text" id="propInputWidth" class="prop-input" placeholder="Auto" />
+                      </div>
+                      <div class="prop-field">
+                        <label>Height</label>
+                        <input type="text" id="propInputHeight" class="prop-input" placeholder="Auto" />
+                      </div>
+                    </div>
+                    <div class="prop-row-dual" style="margin-top: 6px;">
+                      <div class="prop-field">
+                        <label>Margin</label>
+                        <input type="text" id="propInputMargin" class="prop-input" placeholder="0" />
+                      </div>
+                      <div class="prop-field">
+                        <label>Padding</label>
+                        <input type="text" id="propInputPadding" class="prop-input" placeholder="0" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Group: Appearance & Colors -->
+                  <div class="prop-group">
+                    <div class="prop-group-title">색상 & 스타일 (Appearance)</div>
+                    <div class="prop-row-field">
+                      <label>Background</label>
+                      <div class="color-picker-row">
+                        <input type="color" id="propColorBgPicker" class="prop-color-swatch" value="#1e293b" />
+                        <input type="text" id="propInputBg" class="prop-input color-hex-input" placeholder="#1e293b" />
+                      </div>
+                    </div>
+                    <div class="prop-row-field" style="margin-top: 6px;">
+                      <label>Foreground</label>
+                      <div class="color-picker-row">
+                        <input type="color" id="propColorFgPicker" class="prop-color-swatch" value="#f8fafc" />
+                        <input type="text" id="propInputFg" class="prop-input color-hex-input" placeholder="#f8fafc" />
+                      </div>
+                    </div>
+                    <div class="prop-row-field" style="margin-top: 6px;">
+                      <label>BorderBrush</label>
+                      <div class="color-picker-row">
+                        <input type="color" id="propColorBorderPicker" class="prop-color-swatch" value="#334155" />
+                        <input type="text" id="propInputBorder" class="prop-input color-hex-input" placeholder="#334155" />
+                      </div>
+                    </div>
+                    <div class="color-palette-chips">
+                      <span class="palette-chip" style="background:#0f172a" data-color="#0f172a" title="Dark Slate (#0f172a)"></span>
+                      <span class="palette-chip" style="background:#1e293b" data-color="#1e293b" title="Surface Navy (#1e293b)"></span>
+                      <span class="palette-chip" style="background:#334155" data-color="#334155" title="Border Slate (#334155)"></span>
+                      <span class="palette-chip" style="background:#0284c7" data-color="#0284c7" title="Sky Blue (#0284c7)"></span>
+                      <span class="palette-chip" style="background:#059669" data-color="#059669" title="Emerald (#059669)"></span>
+                      <span class="palette-chip" style="background:#d97706" data-color="#d97706" title="Amber (#d97706)"></span>
+                      <span class="palette-chip" style="background:#e11d48" data-color="#e11d48" title="Rose (#e11d48)"></span>
+                      <span class="palette-chip" style="background:#f8fafc" data-color="#f8fafc" title="Light (#f8fafc)"></span>
+                    </div>
+                  </div>
+
+                  <!-- Group: Typography & CornerRadius -->
+                  <div class="prop-group">
+                    <div class="prop-group-title">글꼴 & 모서리 (Typography & Radius)</div>
+                    <div class="prop-row-dual">
+                      <div class="prop-field">
+                        <label>FontSize</label>
+                        <input type="text" id="propInputFontSize" class="prop-input" placeholder="14" />
+                      </div>
+                      <div class="prop-field">
+                        <label>CornerRadius</label>
+                        <input type="text" id="propInputCornerRadius" class="prop-input" placeholder="6" />
+                      </div>
+                    </div>
+                    <div class="prop-row-field" style="margin-top: 6px;">
+                      <label>FontWeight</label>
+                      <div class="prop-btn-group">
+                        <button class="prop-chip-btn" data-weight="Normal">Normal</button>
+                        <button class="prop-chip-btn" data-weight="SemiBold">SemiBold</button>
+                        <button class="prop-chip-btn" data-weight="Bold">Bold</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Group: AI Directive & Presets -->
+                  <div class="prop-group ai-group">
+                    <div class="prop-group-title ai-title">
+                      <span>✨ AI 자연어 지시</span>
+                    </div>
+                    <div class="prop-row">
+                      <input type="text" id="propAiDirectiveInput" class="prop-input" placeholder="요소 변경 지시 (예: 모던 에메랄드 테마, 클릭 이벤트 연결)..." />
+                    </div>
+                    <div class="prop-actions-row">
+                      <div class="prop-chips-wrap">
+                        <button class="inspector-ai-chip" data-directive="에메랄드 스타일 적용">에메랄드</button>
+                        <button class="inspector-ai-chip" data-directive="아주르 블루 테마 적용">블루테마</button>
+                        <button class="inspector-ai-chip" data-directive="클릭 이벤트 핸들러 생성">클릭이벤트</button>
+                      </div>
+                      <button id="btnSubmitInspectorAi" class="btn btn-primary btn-sm">적용</button>
+                    </div>
+                  </div>
+
+                  <!-- Element Actions -->
+                  <div class="prop-group actions-group">
+                    <button id="btnDuplicateElement" class="btn btn-secondary btn-sm" title="선택한 요소를 복제합니다">복제</button>
+                    <button id="btnDeleteElement" class="btn btn-danger btn-sm" title="선택한 요소를 삭제합니다">삭제</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Panel (Console & Diagnostics) -->
+        <div class="bottom-panel" id="bottomPanel">
+          <div class="panel-header">
+            <div class="panel-tabs">
+              <button class="panel-tab active" data-target="consoleOutput">
+                <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="4 17 10 11 4 5"></polyline>
+                  <line x1="12" y1="19" x2="20" y2="19"></line>
+                </svg>
+                <span>터미널 / 실행 출력</span>
+              </button>
+              <button class="panel-tab" data-target="diagnosticsList">
+                <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>Roslyn 진단</span>
+                <span id="diagBadge" class="diag-counter-pill">0</span>
+              </button>
+            </div>
+            <div class="panel-actions">
+              <!-- Diagnostics Scope Switcher (전체 솔루션 vs 현재 파일) -->
+              <div class="diag-scope-wrapper" id="diagScopeWrapper" style="display: none;">
+                <span class="diag-scope-label">범위:</span>
+                <div class="diag-scope-toggle">
+                  <button id="btnScopeEntire" class="diag-scope-btn active" data-scope="entire" title="전체 솔루션(프로젝트) 모든 C# 파일 진단">전체 솔루션</button>
+                  <button id="btnScopeCurrent" class="diag-scope-btn" data-scope="current" title="현재 열려있는 활성 파일만 진단">현재 파일</button>
+                </div>
+              </div>
+              <button id="btnClearOutput" class="icon-btn" title="출력 지우기">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+              <button id="btnTogglePanel" class="icon-btn" title="패널 접기/펼치기">
+                <svg id="chevronIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="panel-content">
+            <pre id="consoleOutput" class="console-output active">⚡ RoslynStudio .NET 10 엔진이 준비되었습니다. 파일을 열거나 [▶ 실행]을 클릭하세요.</pre>
+            <div id="diagnosticsList" class="diagnostics-list"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Status Bar -->
+    <footer class="status-bar">
+      <div class="status-left">
+        <span class="status-dot"></span>
+        <span id="statusMessage">준비 완료</span>
+      </div>
+      <div class="status-right">
+        <span id="roslynStatus" class="roslyn-badge">Roslyn 컴파일러 대기</span>
+        <span class="status-sep">/</span>
+        <span id="cursorPos">줄 1, 열 1</span>
+        <span class="status-sep">/</span>
+        <span>UTF-8</span>
+        <span class="status-sep">/</span>
+        <span class="lang-tag">C# 14 / .NET 10</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- XAML <-> C# UI Code Converter Modal -->
+  <div id="uiCodeConverterModal" class="ui-converter-modal-backdrop" style="display: none;">
+    <div class="ui-converter-modal">
+      <div class="ui-converter-header">
+        <div class="ui-converter-title">
+          <span class="ui-converter-badge" id="converterDirectionBadge">XAML → C# UI</span>
+          <span id="converterModalTitle">순수 C# UI 코드 (C# Markup) 변환 결과</span>
+        </div>
+        <button id="btnCloseConverterModal" class="inspector-close-btn" title="닫기">✖</button>
+      </div>
+      <div class="ui-converter-body">
+        <textarea id="converterCodeOutput" class="ui-converter-textarea" readonly spellcheck="false"></textarea>
+      </div>
+      <div class="ui-converter-footer">
+        <span id="converterStatusMsg" class="converter-status-msg">💡 변환된 C# 파일도 열면 오른쪽 실시간 비주얼 디자이너와 양방향 속성 편집기가 동일하게 작동합니다.</span>
+        <div class="ui-converter-actions">
+          <button id="btnCopyConvertedCode" class="btn btn-secondary btn-sm">클립보드 복사</button>
+          <button id="btnSaveConvertedFile" class="btn btn-primary btn-sm">새 파일로 저장 및 열기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20261019_12"></script>
+</body>
+</html>

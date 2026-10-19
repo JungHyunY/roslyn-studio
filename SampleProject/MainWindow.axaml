@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        x:Class="SampleApp.MainWindow"
+        Title="RoslynStudio - Avalonia .NET 10 App"
+        Width="540" Height="480"
+        Background="#0f172a">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#1e293b" CornerRadius="8" Padding="16" Margin="0,0,0,16" BorderBrush="#334155" BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="⚡ Avalonia UI .NET 10 크로스플랫폼 앱" FontSize="16" FontWeight="Bold" Foreground="#38bdf8" Margin="0,0,0,4"/>
+                <TextBlock Text="이 창은 실제 데스크톱 네이티브 윈도우로 구동되는 Avalonia 애플리케이션입니다." FontSize="12" Foreground="#94a3b8"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Background="#1e293b" CornerRadius="8" Padding="16" BorderBrush="#334155" BorderThickness="1">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="사용자 설정" FontSize="14" FontWeight="SemiBold" Foreground="#f8fafc" Margin="0,0,0,12"/>
+                <TextBlock Text="프로젝트 이름" FontSize="12" Foreground="#94a3b8" Margin="0,0,0,4"/>
+                <TextBox Text="RoslynStudio.AvaloniaClient" Height="36" Padding="8" Background="#0f172a" Foreground="#f8fafc" BorderBrush="#475569" CornerRadius="6" Margin="0,0,0,12"/>
+                <TextBlock Text="빌드 진행률 (85%)" FontSize="12" Foreground="#94a3b8" Margin="0,0,0,4"/>
+                <ProgressBar Value="85" Height="10" Margin="0,0,0,14" Background="#334155" Foreground="#0ea5e9"/>
+                <CheckBox Content="AOT 네이티브 컴파일 활성화" IsChecked="True" Foreground="#cbd5e1" Margin="0,0,0,8"/>
+                <CheckBox Content="실시간 Roslyn 진단 자동 동기화" IsChecked="True" Foreground="#cbd5e1" Margin="0,0,0,8"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="취소" Width="80" Height="34" Margin="0,0,8,0" Background="#334155" Foreground="#cbd5e1" CornerRadius="6"/>
+            <Button Content="설정 저장" Width="100" Height="34" Background="#0284c7" Foreground="#ffffff" FontWeight="Bold" CornerRadius="6"/>
+        </StackPanel>
+    </Grid>
+</Window>
